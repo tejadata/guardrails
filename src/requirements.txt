@@ -1,0 +1,5 @@
+uvicorn
+fastapi
+pydantic==2.9.2
+presidio_analyzer==2.2.358
+presidio_anonymizer==2.2.358
