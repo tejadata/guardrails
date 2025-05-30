@@ -63,6 +63,63 @@ In the following request, the `custom_entities` field is optional. Users can inc
 }
 ```
 
+# Toxicity Detection
+
+This module provides an API and utility functions for detecting toxic language in text using the [unitary/toxic-bert](https://huggingface.co/unitary/toxic-bert) model from HuggingFace Transformers.
+
+## Features
+
+- Detects multiple types of toxicity, including:
+  - General toxicity
+  - Severe toxicity
+  - Obscene language
+  - Identity attacks
+  - Insults
+  - Threats
+- Handles long texts by splitting into overlapping chunks.
+- Returns both overall toxicity flag and per-label scores.
+
+## Usage
+
+**Sample Input**
+
+```json
+{
+  "content": "Just checking toxicity, I am going to insult you and slap you",
+  "treshold": 0.5
+}
+```
+
+**Sample output:**
+
+```json
+{
+  "is_toxic": true,
+  "flagged_labels": {
+    "toxicity": 0.8888218998908997,
+    "identity_attack": 0.5717701315879822
+  },
+  "all_scores": {
+    "toxicity": 0.8888218998908997,
+    "severe_toxicity": 0.02928190864622593,
+    "obscene": 0.07397100329399109,
+    "identity_attack": 0.5717701315879822,
+    "insult": 0.05923270061612129,
+    "threat": 0.016223613172769547
+  }
+}
+```
+
+## API
+
+- `detect_toxicity(text: str, threshold: float = 0.5) -> dict`
+  - Returns a dictionary with:
+    - `is_toxic`: `True` if any label exceeds the threshold.
+    - `flagged_labels`: Labels and scores above the threshold.
+    - `all_scores`: All toxicity scores.
+
+---
+
 ## How to run in local
 
 install all the requirements using requirement.txt file and run `uvicorn src.app:app --reload`
