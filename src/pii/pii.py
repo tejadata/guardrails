@@ -25,7 +25,7 @@ anonymizer = AnonymizerEngine()
 CONFIDENCE_THRESHOLD = 0.5
 
 
-def analyze_and_mask_text(text: str, entities: list, custom_entitie_list: list) -> dict:
+async def analyze_and_mask_text(text: str, entities: list, custom_entitie_list: list) -> dict:
     """
     Analyze input text for specified PII entities and return masked output along with details.
 
@@ -37,13 +37,9 @@ def analyze_and_mask_text(text: str, entities: list, custom_entitie_list: list) 
         dict: Contains masked text, found entities, and metadata.
     """
 
-    print("=======23409-4239-0234-90")
-    print(type(custom_entitie_list))
-    print(custom_entitie_list)
-
     if len(custom_entitie_list) > 0:
         # User defined/Custom recognizer
-        custom_entities = add_custom_recognizers(analyzer, custom_entitie_list)
+        custom_entities = await add_custom_recognizers(analyzer, custom_entitie_list)
 
         # Get custom entities name
         custom_entitie_names = list(

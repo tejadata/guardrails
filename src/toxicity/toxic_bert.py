@@ -20,7 +20,7 @@ labels = [
 # Function to split text into chunks of max 512 tokens
 
 
-def chunk_text(text, max_length=512, stride=256):
+async def chunk_text(text, max_length=512, stride=256):
     inputs = tokenizer(
         text,
         return_tensors="pt",
@@ -50,8 +50,8 @@ def chunk_text(text, max_length=512, stride=256):
 # Function to evaluate toxicity
 
 
-def detect_toxicity(text, threshold=0.5):
-    chunks = chunk_text(text)
+async def detect_toxicity(text, threshold=0.5):
+    chunks = await chunk_text(text)
     max_scores = torch.zeros(len(labels))
 
     for chunk in chunks:
@@ -68,10 +68,3 @@ def detect_toxicity(text, threshold=0.5):
         "flagged_labels": flagged,
         "all_scores": result
     }
-
-
-# 🔍 Example usage
-text = "slap you. "  # Long input
-output = detect_toxicity(text)
-print("Is Toxic:", output["is_toxic"])
-print("Flagged Labels:", output["flagged_labels"])

@@ -3,7 +3,7 @@ from presidio_analyzer import PatternRecognizer, Pattern
 import re
 
 
-def add_custom_recognizers(analyzer, recognizer_definitions: list):
+async def add_custom_recognizers(analyzer, recognizer_definitions: list):
     """
     Adds multiple custom recognizers dynamically based on user input.
 
