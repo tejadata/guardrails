@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 from pii.pii import analyze_and_mask_text
-
+from toxicity.toxic_bert import detect_toxicity
 app = FastAPI(
     title="LLM Guardrails Server",
     description="Request/Response Guard rails",
@@ -11,10 +11,9 @@ app = FastAPI(
 )
 
 
-class ValidateRequest(BaseModel):
+class ToxiRequest(BaseModel):
     content: str
-    guardrails: List[str]
-    options: Optional[Dict[str, Any]] = None
+    treshold: float = 0.5
 
 
 class TransformRequest(BaseModel):
@@ -29,14 +28,14 @@ async def list_guardrails():
     return {"guardrails": 123}
 
 
-@app.post("/api/v1/block")
-async def validate_content(request: ValidateRequest):
+@app.post("/api/v1/toxicity")
+async def validate_content(request: ToxiRequest):
     """Validate content against specified guardrails."""
+    result = detect_toxicity(request.content, request.treshold)
+    return result
 
-    return 1
 
-
-@app.post("/api/v1/transform")
+@app.post("/api/v1/mask_pii")
 async def transform_content(request: TransformRequest):
     """Transform content using specified guardrails."""
     res = analyze_and_mask_text(

@@ -34,7 +34,7 @@ A Python project for detecting and anonymizing Personally Identifiable Informati
 
 ### Sample request
 
-POST call to `localhost:8000/api/v1/transform`
+POST call to `localhost:8000/api/v1/mask_pii`
 
 In the following request, the `custom_entities` field is optional. Users can include it to define their own custom regex patterns for entity detection if needed.
 
