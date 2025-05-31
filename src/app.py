@@ -4,8 +4,8 @@ from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 from pii.pii import analyze_and_mask_text
 from toxicity.toxic_bert import detect_toxicity
+from prompt_secure.prompt_break import classify_prompt_injection
 import asyncio
-from concurrent.futures import ThreadPoolExecutor
 
 
 app = FastAPI(
@@ -18,6 +18,10 @@ app = FastAPI(
 class ToxiRequest(BaseModel):
     content: str
     treshold: float = 0.5
+
+
+class Prompt(BaseModel):
+    content: str
 
 
 class TransformRequest(BaseModel):
@@ -48,15 +52,26 @@ async def transform_content(request: TransformRequest):
     return res
 
 
+@app.post("/api/v1/prompt_injection")
+async def prompt_injection(request: Prompt):
+    """Detect prompt injection attempts."""
+    result = await classify_prompt_injection(request.content)
+    return result
+
+
 @app.post("/api/v1/run_all_guardrails")
-async def all_guardrails(request: TransformRequest):
-    """Apply all guardrails to the content."""
-    pii_result, toxicity_result = await asyncio.gather(analyze_and_mask_text(
-        request.content, request.guardrails, request.custom_entities),
-        detect_toxicity(request.content, request.treshold))
+async def run_all_guardrails(request: TransformRequest):
+    """Run all guardrails on the content."""
+    pii_result, toxicity_result, prompt_injection_result = await asyncio.gather(
+        analyze_and_mask_text(
+            request.content, request.guardrails, request.custom_entities, request.treshold),
+        detect_toxicity(request.content, request.treshold),
+        classify_prompt_injection(request.content)
+    )
     return {
         "pii": pii_result,
-        "toxicity": toxicity_result
+        "toxicity": toxicity_result,
+        "prompt_injection": prompt_injection_result
     }
 
 

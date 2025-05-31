@@ -22,10 +22,10 @@ anonymizer = AnonymizerEngine()
 
 
 # Define confidence score threshold for detected entities
-CONFIDENCE_THRESHOLD = 0.5
+# CONFIDENCE_THRESHOLD = 0.5
 
 
-async def analyze_and_mask_text(text: str, entities: list, custom_entitie_list: list) -> dict:
+async def analyze_and_mask_text(text: str, entities: list, custom_entitie_list: list, CONFIDENCE_THRESHOLD: float) -> dict:
     """
     Analyze input text for specified PII entities and return masked output along with details.
 
