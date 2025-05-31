@@ -231,7 +231,3 @@ POST call to `localhost:8000/api/v1/run_all_guardrails`
 - FastAPI, Uvicorn, and other dependencies in `requirements.txt`
 
 ---
-
-# License
-
-MIT License.
