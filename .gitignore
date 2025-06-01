@@ -1,1 +1,7 @@
-src/pii/__pycache__/pii.cpython-311.pyc
+__pycache__/
+*.cpp
+.DS_Store
+*.pyc
+*.pyo
+*.pyd
+*.pkl
