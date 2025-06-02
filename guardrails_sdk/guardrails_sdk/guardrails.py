@@ -1,4 +1,3 @@
-from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Dict, Any, Optional
 from .pii.pii import analyze_and_mask_text

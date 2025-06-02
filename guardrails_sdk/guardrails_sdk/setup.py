@@ -1,5 +1,10 @@
 from setuptools import setup, find_packages
 
+with open("requirements.txt") as f:
+    install_requires = f.read().splitlines()
+
+print("Install requires:", install_requires)
+
 setup(
     name="guardrails_sdk",
     version="0.1.0",
@@ -10,15 +15,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/tejadata/guardrails",
     packages=find_packages(),
-    install_requires=[
-        "pydantic==2.9.2"
-        "presidio_analyzer==2.2.358"
-        "presidio_anonymizer==2.2.358"
-        "torch==2.5.1"
-        "transformers==4.47.1"
-        "sentence-transformers==3.3.1"
-
-    ],
+    install_requires=install_requires,
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
