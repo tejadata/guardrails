@@ -18,35 +18,157 @@ You can install the Guardrails SDK using pip. Run the following command:
 pip install guardrails-sdk
 ```
 
-## Usage
+# Sample request
 
-Here’s a quick example of how to use the Guardrails SDK:
+### 🧾 Field Descriptions
 
-```python
-from guardrails_sdk.client import GuardrailsClient
+| Field             | Type           | Description                                                                                                                                    |
+| ----------------- | -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `content`         | `string`       | The raw input text that you want to send to LLM.                                                                                               |
+| `guardrails`      | `List[string]` | List of **built-in or custom entity types** to apply masking on. Examples: `"EMAIL_ADDRESS"`, `"PHONE_NUMBER"`, `"CUSTOM_ACCOUNT_NUMBER"` etc. |
+| `treshold`        | `float`        | The minimum confidence score (0.0 - 1.0) to consider a match valid. Defaults to `0.5`.                                                         |
+| `custom_entities` | `List[Dict]`   | A list of **custom entity matchers** defined using regular expressions. Each entry describes a user-defined entity.                            |
 
-client = GuardrailsClient()
+---
 
-# Validate content
-toxicity_result = client.validate_content("Your input text here")
-print(toxicity_result)
+### 🔧 `custom_entities` Object Fields
 
-# Mask PII
-masked_result = client.mask_pii("Your input text with PII here")
-print(masked_result)
+| Subfield      | Required | Description                                                                                                 |
+| ------------- | -------- | ----------------------------------------------------------------------------------------------------------- |
+| `entity_name` | ✅ Yes   | A unique name/label for your custom entity. Should also be listed in the `guardrails` array to take effect. |
+| `regex`       | ✅ Yes   | The regular expression pattern used to detect the custom entity in the input text.                          |
+| `score`       | ❌ No    | Optional confidence score (between 0.0 and 1.0). If not provided, default logic will be used.               |
 
-# Detect toxicity
-toxicity_detection = client.detect_toxicity("Your input text here")
-print(toxicity_detection)
+### Sample request
+
+```json
+{
+  "content": "Hello this is viswateja from v@v.com and LC-123456 with 1234-5678-9012",
+  "guardrails": ["EMAIL_ADDRESS", "CUSTOM_ACCOUNT_NUMBER", "LOYALTY_CARD"],
+  "treshold": 0.5,
+  "custom_entities": [
+    {
+      "entity_name": "CUSTOM_ACCOUNT_NUMBER",
+      "regex": "\\b\\d{4}-\\d{4}-\\d{4}\\b",
+      "score": 0.9
+    },
+    {
+      "entity_name": "LOYALTY_CARD",
+      "regex": "LC-\\d{6}"
+    }
+  ]
+}
 ```
 
-## API Reference
+## Usage
 
-### GuardrailsClient
+Here’s a quick example of how to use the Guardrails SDK: The below code snippet helps to run all the guard rails provided by SDK
 
-- **validate_content(content: str) -> dict**: Validates the provided content against the configured guardrails.
-- **mask_pii(content: str) -> dict**: Masks any detected PII in the provided content.
-- **detect_toxicity(content: str) -> dict**: Detects toxicity in the provided content and returns the results.
+```python
+from guardrails_sdk import GuardrailsClient, TransformRequest
+import asyncio
+
+req = {
+    "content": "Hello this is viswateja from v@v.com and LC-123456 with 1234-5678-9012",
+    "guardrails": [
+        "EMAIL_ADDRESS","CUSTOM_ACCOUNT_NUMBER","LOYALTY_CARD"
+    ],
+    "treshold": 0.5,
+    "custom_entities": [
+        {
+            "entity_name": "CUSTOM_ACCOUNT_NUMBER",
+            "regex": "\\b\\d{4}-\\d{4}-\\d{4}\\b",
+            "score": 0.9
+        },
+        {
+            "entity_name": "LOYALTY_CARD",
+            "regex": "LC-\\d{6}"
+        }
+    ]
+}
+
+
+async def main():
+    client = GuardrailsClient()
+    request = TransformRequest(**req)
+    res = await client.run_all_guardrails(request)
+    print(res)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+## 📘 API Reference
+
+### `GuardrailsClient`
+
+A class to run various content safety guardrails such as PII masking, toxicity detection, and prompt injection classification.
+
+---
+
+#### `validate_content(request: ToxiRequest) -> Dict`
+
+Detects **toxic content** in the input text based on the given threshold.
+
+##### 🔸 Parameters:
+
+- `request: ToxiRequest`
+  - `content` (str): Input text to analyze.
+  - `treshold` (float, optional): Confidence threshold for toxicity detection. Default is `0.5`.
+
+##### 🔸 Returns:
+
+- `Dict`: Result of toxicity analysis (e.g., toxicity score and classification).
+
+---
+
+#### `transform_content(request: TransformRequest) -> Dict`
+
+Analyzes and masks **PII or other custom entities** in the text based on the specified guardrails.
+
+##### 🔸 Parameters:
+
+- `request: TransformRequest`
+  - `content` (str): Input text to scan and mask.
+  - `guardrails` (List[str]): List of built-in or custom entity types to mask (e.g., `"EMAIL_ADDRESS"`, `"PHONE_NUMBER"`).
+  - `treshold` (float, optional): Confidence threshold for entity detection. Default is `0.5`.
+  - `custom_entities` (List[Dict], optional): Custom entity definitions using regex patterns.
+
+##### 🔸 Returns:
+
+- `Dict`: Original and masked text, along with metadata for detected entities.
+
+---
+
+#### `prompt_injection(request: Prompt) -> Dict`
+
+Classifies the input text to detect **prompt injection attacks** in LLM interactions.
+
+##### 🔸 Parameters:
+
+- `request: Prompt`
+  - `content` (str): Prompt input to classify.
+
+##### 🔸 Returns:
+
+- `Dict`: Classification label and confidence score for whether the prompt is a potential injection.
+
+---
+
+#### `run_all_guardrails(request: TransformRequest) -> Dict`
+
+Executes **all guardrails** (`PII masking`, `toxicity detection`, and `prompt injection detection`) in parallel.
+
+##### 🔸 Parameters:
+
+- `request: TransformRequest` (same as above)
+
+##### 🔸 Returns:
+
+- `Dict`: Combined output for:
+  - `"pii"`: Masked content and entity info
+  - `"toxicity"`: Toxicity classification
+  - `"prompt_injection"`: Prompt injection status
 
 ## Contributing
 
