@@ -1,1 +1,1 @@
-from .guardrails import GuardrailsClient, ToxiRequest, Prompt, TransformRequest
+from .guardrails import GuardrailsClient, ToxiRequest, Prompt, TransformRequest,Compitator
