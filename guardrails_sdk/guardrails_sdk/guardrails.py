@@ -65,7 +65,7 @@ class GuardrailsClient:
         }
     
     async def compitator_banned(self, request: Compitator):
-        response = moderate_text(
+        response = await moderate_text(
             text=request.content,
             banned_words_file=request.block_loc,
             competitor_words_file=request.compitator_loc,

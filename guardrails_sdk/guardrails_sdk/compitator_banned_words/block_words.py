@@ -1,6 +1,5 @@
 import re
 from typing import Literal
-from functools import lru_cache
 
 class UserInputError(Exception):
     """Exception raised for user-facing input errors."""
@@ -8,7 +7,7 @@ class UserInputError(Exception):
         self.message = message
         super().__init__(self.message)
 
-def moderate_text(
+async def moderate_text(
     text: str,
     banned_words_file: str,
     competitor_words_file: str,
@@ -47,7 +46,6 @@ def moderate_text(
     return result
 
 
-@lru_cache(maxsize=16)
 def _compile_pattern(words: tuple) -> re.Pattern:
     if not words:
         return re.compile(r"$^")  # Matches nothing
