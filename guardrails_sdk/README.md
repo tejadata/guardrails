@@ -9,6 +9,7 @@ The Guardrails SDK is a Python library designed to facilitate interaction with t
 - **Content Validation**: Validate user-generated content against specified guardrails to ensure safety and compliance.
 - **PII Detection & Masking**: Automatically detect and mask Personally Identifiable Information (PII) in text to protect user privacy.
 - **Toxicity Detection**: Identify and flag toxic language in user inputs to maintain a safe environment.
+- **Compitator mention**: Detects user-specified competitor-related words or phrases in the text.
 
 ## Installation
 
