@@ -4,7 +4,6 @@ setup.py
 guardrails_sdk/__init__.py
 guardrails_sdk/guardrails.py
 guardrails_sdk/setup.py
-guardrails_sdk/test.py
 guardrails_sdk.egg-info/PKG-INFO
 guardrails_sdk.egg-info/SOURCES.txt
 guardrails_sdk.egg-info/dependency_links.txt
@@ -12,6 +11,8 @@ guardrails_sdk.egg-info/requires.txt
 guardrails_sdk.egg-info/top_level.txt
 guardrails_sdk/compitator_banned_words/__init__.py
 guardrails_sdk/compitator_banned_words/block_words.py
+guardrails_sdk/log_guardrails/__init__.py
+guardrails_sdk/log_guardrails/log_anomaly.py
 guardrails_sdk/pii/__init__.py
 guardrails_sdk/pii/custom_entity.py
 guardrails_sdk/pii/pii.py

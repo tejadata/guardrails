@@ -1,4 +1,5 @@
-from guardrails import GuardrailsClient, TransformRequest
+
+from guardrails_sdk.guardrails_sdk.guardrails import GuardrailsClient, TransformRequest
 import asyncio
 
 d = {
