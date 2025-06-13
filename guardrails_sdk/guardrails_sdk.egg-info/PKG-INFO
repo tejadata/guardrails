@@ -1,3 +1,34 @@
+Metadata-Version: 2.4
+Name: guardrails-sdk
+Version: 0.2.0
+Summary: A Python SDK for interacting with the Guardrails API.
+Home-page: https://github.com/tejadata/guardrails
+Author: viswateja rayapaneni
+Author-email: viswatejaster@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: httpx
+Requires-Dist: pydantic==2.9.2
+Requires-Dist: presidio_analyzer==2.2.358
+Requires-Dist: presidio_anonymizer==2.2.358
+Requires-Dist: torch==2.5.1
+Requires-Dist: transformers==4.47.1
+Requires-Dist: sentence-transformers==3.3.1
+Dynamic: author
+Dynamic: author-email
+Dynamic: classifier
+Dynamic: description
+Dynamic: description-content-type
+Dynamic: home-page
+Dynamic: license-file
+Dynamic: requires-dist
+Dynamic: requires-python
+Dynamic: summary
+
 # README for Guardrails SDK
 
 # Guardrails SDK

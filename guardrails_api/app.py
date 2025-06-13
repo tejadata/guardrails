@@ -1,7 +1,7 @@
 
 from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional,Literal
 from pii.pii import analyze_and_mask_text
 from toxicity.toxic_bert import detect_toxicity
 from prompt_secure.prompt_break import classify_prompt_injection
@@ -13,7 +13,6 @@ app = FastAPI(
     description="Request/Response Guard rails",
     version="1.0.0"
 )
-
 
 class ToxiRequest(BaseModel):
     content: str
@@ -29,6 +28,15 @@ class TransformRequest(BaseModel):
     guardrails: List[str]
     treshold: float = 0.5
     custom_entities: Optional[List[Dict]] = None
+    action: Optional[Literal["mask", "block"]] = None
+    compitator_loc: Optional[str] = None
+    block_loc: Optional[str] = None
+
+class Compitator(BaseModel):
+    content: str
+    action: Literal["mask", "block"]
+    compitator_loc: Optional[str] = None
+    block_loc: Optional[str] = None
 
 
 @app.get("/api/v1/guardrails")
