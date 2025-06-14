@@ -20,10 +20,6 @@ You can install the Guardrails SDK using pip. Run the following command:
 pip install guardrails-sdk
 ```
 
-# Anomaly Logging
-
-This SDK uses SQLAlchemy and logs in to DB in async fashion to avoid adding latency for response. It supports both **PostgreSQL** and **MySQL**.
-
 # Sample request
 
 ### 🧾 Field Descriptions
@@ -177,6 +173,10 @@ Executes **all guardrails** (`PII masking`, `toxicity detection`, and `prompt in
   - `"pii"`: Masked content and entity info
   - `"toxicity"`: Toxicity classification
   - `"prompt_injection"`: Prompt injection status
+
+# Anomaly Logging
+
+This SDK uses SQLAlchemy and logs in to DB in async fashion to avoid adding latency for response. It supports both **PostgreSQL** and **MySQL**.
 
 ## 🔧 Database Configuration
 

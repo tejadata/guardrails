@@ -25,6 +25,10 @@ req = {
 
 # Creating a object for Guard rails SDK
 client = GuardrailsClient()
+# If you want to enable logging, you can pass the DSN for the database
+# Enable logging by passing a DSN
+# Replace <DSN> with your actual database connection string
+"""client = GuardrailsClient(enable_logging=True, dsn=<DSN>)"""
 # Request validation
 request = TransformRequest(**req)
 

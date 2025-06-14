@@ -23,10 +23,15 @@ req = {
     "block_loc": "banned_words.txt"
 }
 
-#Creating a object for Guard rails SDK
+# Creating a object for Guard rails SDK
 client = GuardrailsClient()
-#Request validation
+# If you want to enable logging, you can pass the DSN for the database
+# Enable logging by passing a DSN
+# Replace <DSN> with your actual database connection string
+"""client = GuardrailsClient(enable_logging=True, dsn=<DSN>)"""
+# Request validation
 request = TransformRequest(**req)
+
 
 async def main():
     result = await client.transform_content(request)
