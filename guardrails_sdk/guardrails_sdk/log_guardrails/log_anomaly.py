@@ -59,17 +59,12 @@ class AnomalyStorage:
             anomaly_type=anomaly_type,
             details=json.dumps(details, default=str),
         )
-        logger.info(
-            f"[AnomalyLogger] Anomaly details: {anomaly.anomaly_type} - {anomaly.details}")
+
         session = self.Session()
         try:
-            logger.info(f"[AnomalyLogger] Storing anomaly for {request_id}")
             session.add(anomaly)
-            logger.info(
-                f"[AnomalyLogger] Session state before commit: {session.new} - {anomaly.__dict__}")
             session.commit()
-            logger.info(
-                f"[AnomalyLogger] Successfully stored anomaly for {request_id}")
+
         except Exception as e:
             logger.error(
                 f"[AnomalyLogger] Failed to store anomaly for {request_id}: {e}", exc_info=True)

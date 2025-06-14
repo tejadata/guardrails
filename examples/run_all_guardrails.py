@@ -23,10 +23,11 @@ req = {
     "block_loc": "banned_words.txt"
 }
 
-#Creating a object for Guard rails SDK
+# Creating a object for Guard rails SDK
 client = GuardrailsClient()
-#Request validation
+# Request validation
 request = TransformRequest(**req)
+
 
 async def main():
     result = await client.run_all_guardrails(request)

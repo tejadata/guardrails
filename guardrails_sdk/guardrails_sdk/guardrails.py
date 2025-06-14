@@ -125,12 +125,24 @@ class GuardrailsClient:
             "moderate_result": moderate_result
         }
 
-        if (
-            pii_result.get("action_taken")
-            or toxicity_result.get("toxic", False)
-            or prompt_result.get("is_prompt_injection", False)
-            or moderate_result.get("action_taken")
-        ):
-            self._log_async("multiple", result_summary)
+        # Collect triggered anomalies
+        triggered = []
+        if pii_result.get("action_taken") or pii_result.get("pii_found"):
+            triggered.append("pii")
+        if toxicity_result.get("toxic", False):
+            triggered.append("toxicity")
+        if prompt_result.get("is_prompt_injection", False):
+            triggered.append("prompt_injection")
+        if moderate_result.get("action_taken"):
+            triggered.append("banned_words")
+
+        if triggered:
+            self._log_async(
+                anomaly_type=",".join(triggered),  # or store as a JSON array
+                details={
+                    "anomalies_detected": triggered,
+                    "summary": result_summary
+                }
+            )
 
         return result_summary

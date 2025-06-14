@@ -10,6 +10,7 @@ The Guardrails SDK is a Python library designed to facilitate interaction with t
 - **PII Detection & Masking**: Automatically detect and mask Personally Identifiable Information (PII) in text to protect user privacy.
 - **Toxicity Detection**: Identify and flag toxic language in user inputs to maintain a safe environment.
 - **Compitator mention**: Detects user-specified competitor-related words or phrases in the text.
+- **Anomoly logging**: anomoly detected by SDK can be logged to postgress or MySQL for further analysis
 
 ## Installation
 
@@ -18,6 +19,10 @@ You can install the Guardrails SDK using pip. Run the following command:
 ```bash
 pip install guardrails-sdk
 ```
+
+# Anomaly Logging
+
+This SDK uses SQLAlchemy and logs in to DB in async fashion to avoid adding latency for response. It supports both **PostgreSQL** and **MySQL**.
 
 # Sample request
 
@@ -101,7 +106,7 @@ if __name__ == "__main__":
 
 ## 📘 API Reference
 
-`working examples can be found here` https://github.com/tejadata/guardrails/tree/main/examples 
+working examples can be found here https://github.com/tejadata/guardrails/tree/main/examples
 
 ### `GuardrailsClient`
 
@@ -172,6 +177,46 @@ Executes **all guardrails** (`PII masking`, `toxicity detection`, and `prompt in
   - `"pii"`: Masked content and entity info
   - `"toxicity"`: Toxicity classification
   - `"prompt_injection"`: Prompt injection status
+
+## 🔧 Database Configuration
+
+To store anomalies, configure the **DSN (Database Source Name)** using the appropriate format depending on your database system.
+
+### How to enable DB logging
+
+when initilizing guardrails client
+
+```python
+client = GuardrailsClient(enable_logging=True, dsn=<DSN>)
+```
+
+### 🔧 PostgreSQL Configuration
+
+Make sure you install the required driver
+
+```bash
+pip install psycopg2-binary
+```
+
+### ✅ DSN Format
+
+```
+postgresql+psycopg2://<username>:<password>@<host>:<port>/<database_name>
+```
+
+## 🔧 MySQL Configuration
+
+Make sure you install the required driver:
+
+```bash
+pip install pymysql
+```
+
+### ✅ DSN Format
+
+```
+mysql+pymysql://<username>:<password>@<host>:<port>/<database_name>
+```
 
 ## Contributing
 
