@@ -26,15 +26,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install build twine
 
-    # Step 4: Build the package
     - name: Build the package
-      working-directory: guardrails/guardrails/guardrails_sdk
+      working-directory: /home/runner/work/guardrails/guardrails/guardrails_sdk
       run: python -m build
 
     # Step 5: Publish to PyPI
     - name: Publish to PyPI
-      working-directory: guardrails/guardrails/guardrails_sdk
+      working-directory: /home/runner/work/guardrails/guardrails/guardrails_sdk
       env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: python -m twine upload dist/*
