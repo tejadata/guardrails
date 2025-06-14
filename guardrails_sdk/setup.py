@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="guardrails-sdk",
+    name="guardrails-sdk-sample",
     version="0.2.0",
     author="viswateja rayapaneni",
     author_email="viswatejaster@gmail.com",
