@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="guardrails-sdk-sample",
-    version="0.2.0",
+    name="guardrails-sdk",
+    version="0.2.1",
     author="viswateja rayapaneni",
     author_email="viswatejaster@gmail.com",
     description="A Python SDK for interacting with the Guardrails API.",
