@@ -5,7 +5,7 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from datetime import datetime
 from typing import Dict
 # --- Environment setup ---
-DSN = os.getenv("ANOMALY_DB_DSN")  # Example: postgresql://user:pass@host:5432/db
+DSN = os.getenv("ANOMALY_DB_DSN")  
 if not DSN:
     raise ValueError("Set ANOMALY_DB_DSN environment variable")
 
