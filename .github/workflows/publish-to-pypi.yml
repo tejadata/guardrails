@@ -30,7 +30,7 @@ jobs:
 
     # Step 4: Build the package
     - name: Build the package
-      working-directory: guardrails/guardrails/guardrails_sdk
+      working-directory: /home/runner/work/guardrails/guardrails/guardrails_sdk
       run: python -m build
 
     # Step 5: Publish to PyPI
