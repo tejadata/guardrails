@@ -10,7 +10,7 @@ from guardrails_sdk.toxicity.toxic_bert import detect_toxicity
 from guardrails_sdk.prompt_secure.prompt_break import classify_prompt_injection
 from guardrails_sdk.compitator_banned_words.block_words import moderate_text
 from guardrails_sdk.log_guardrails.log_anomaly import AnomalyStorage
-
+from guardrails_sdk.get_reports.reports import generate_anomaly_report
 
 # === Request Models ===
 
@@ -39,6 +39,8 @@ class Compitator(BaseModel):
     compitator_loc: Optional[str] = None
     block_loc: Optional[str] = None
 
+class ReportRequest(BaseModel):
+    group_by: Literal["day", "anomaly_type"]
 
 # === Guardrails Client ===
 
@@ -65,6 +67,10 @@ class GuardrailsClient:
             )
             threat.start()
             threat.join()  # Wait for the thread to finish
+
+    async def generate_report(self, request: ReportRequest):
+        result = generate_anomaly_report(request.group_by, self.logger.dsn)
+        return result
 
     async def validate_content(self, request: ToxiRequest):
         result = await detect_toxicity(request.content, request.treshold)

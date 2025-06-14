@@ -189,6 +189,44 @@ POST call to `localhost:8000/api/v1/run_all_guardrails`
 }
 ```
 
+# Get anomaly repots
+
+GET call to `localhost:8000/api/v1//api/v1/get_report`
+
+**Sample Input**
+
+```json
+localhost:8000/api/v1/get_report/?group_by=anomaly_type
+```
+
+**Sample output:**
+
+```json
+{
+    "pii": 2,
+    "prompt_injection": 1
+}
+```
+
+**Sample Input**
+
+```json
+localhost:8000/api/v1/get_report/?group_by=day
+```
+
+**Sample output:**
+
+```json
+{
+    "pii": {
+        "2025-06-14": 2
+    },
+    "prompt_injection": {
+        "2025-06-14": 1
+    }
+}
+```
+
 ---
 
 # API Endpoints
@@ -201,7 +239,7 @@ POST call to `localhost:8000/api/v1/run_all_guardrails`
 | `/api/v1/run_all_guardrails` | POST   | Run all guardrails on input               |
 | `/api/v1/guardrails`         | GET    | List available guardrails                 |
 | `/health`                    | GET    | Health check                              |
-
+| `/api/v1/get_report`         | GET    | get list of anomalies based on day and anomoly type |
 ---
 
 # How to run locally
