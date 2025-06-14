@@ -27,7 +27,6 @@ jobs:
         pip install build twine
         ls
 
-    # Step 4: Build the package
     - name: Build the package
       working-directory: /home/runner/work/guardrails/guardrails/guardrails_sdk
       run: python -m build
