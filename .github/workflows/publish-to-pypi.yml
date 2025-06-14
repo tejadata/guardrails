@@ -36,6 +36,6 @@ jobs:
     - name: Publish to PyPI
       working-directory: /home/runner/work/guardrails/guardrails/guardrails_sdk
       env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: python -m twine upload dist/*
