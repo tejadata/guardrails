@@ -4,7 +4,6 @@ from sqlalchemy import create_engine, Column, Integer, String, DateTime, Text, f
 from sqlalchemy.orm import declarative_base, sessionmaker
 from datetime import datetime
 from typing import Dict
-os.environ['ANOMALY_DB_DSN']="postgresql+psycopg2://avnadmin:AVNS_M5AINu9hKrf0KHKphlq@llm-viswatejaster-a9ff.k.aivencloud.com:15452/defaultdb"
 # --- Environment setup ---
 DSN = os.getenv("ANOMALY_DB_DSN")  # Example: postgresql://user:pass@host:5432/db
 if not DSN:
